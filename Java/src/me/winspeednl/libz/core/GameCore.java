@@ -68,7 +68,7 @@ public class GameCore implements Runnable {
 			frameTime += passedTime;
 			
 			while (unprocessedTime >= frameCap) {
-				game.update(this, (float)frameCap);
+				game.update(this);
 				unprocessedTime -= frameCap;
 				render = true;
 				
