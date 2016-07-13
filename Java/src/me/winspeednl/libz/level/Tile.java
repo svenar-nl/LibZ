@@ -27,6 +27,47 @@ public class Tile {
 		
 		pixels = new Sprite(sprite, 0, 0, w, h).pixels;
 	}
+	public Tile(Sprite sprite, int x, int y, int w, int h, boolean isSolid, double rot, boolean flipX, boolean flipY) {
+		this.sprite = sprite.path;
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.isSolid = isSolid;
+		this.rot = rot;
+		this.flipX = flipX;
+		this.flipY = flipY;
+		
+		pixels = sprite.pixels;
+	}
+	
+	public Tile(String sprite, int x, int y, int w, int h, boolean isSolid) {
+		this.sprite = sprite;
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.isSolid = isSolid;
+		this.rot = 0.0;
+		this.flipX = false;
+		this.flipY = false;
+		
+		pixels = new Sprite(sprite, 0, 0, w, h).pixels;
+	}
+	
+	public Tile(Sprite sprite, int x, int y, int w, int h, boolean isSolid) {
+		this.sprite = sprite.path;
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.isSolid = isSolid;
+		this.rot = 0.0;
+		this.flipX = false;
+		this.flipY = false;
+		
+		pixels = sprite.pixels;
+	}
 	
 	public int[] rotate(double rot) {
 		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

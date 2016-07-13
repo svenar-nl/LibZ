@@ -2,11 +2,17 @@ package me.winspeednl.libz.level;
 
 import java.util.ArrayList;
 
+import me.winspeednl.libz.core.GameCore;
+import me.winspeednl.libz.image.Sprite;
+import me.winspeednl.libz.screen.Render;
+
 public class Level {
 	private ArrayList<Tile> tiles;
 	private ArrayList<Tile> mapTiles;
 	private ArrayList<String> mapData;
 	private int width, height, tileSize;
+	private String[] rawMapData;
+	private Tile[] rawMapTiles;
 	
 	public Level() {
 		tiles = new ArrayList<Tile>();
@@ -15,6 +21,8 @@ public class Level {
 	}
 	
 	public void loadMap(String[] mapData, int w, int h, Tile[] tileList, int s) {
+		this.rawMapData = mapData;
+		this.rawMapTiles = tileList;
 		width = w;
 		height = h;
 		tileSize = s;
@@ -55,6 +63,10 @@ public class Level {
 		tiles.add(tile);
 	}
 	
+	public Tile getTile(int x, int y) {
+		return tiles.get(x + y * width);
+	}
+	
 	public Tile createTile(String sprite, int x, int y, int w, int h, boolean isSolid) {
 		Tile tile = new Tile(sprite, x, y, w, h, isSolid, 0, false, false);
 		return tile;
@@ -67,6 +79,11 @@ public class Level {
 	
 	public Tile createTile(String sprite, int x, int y, int w, int h, double rot, boolean isSolid, boolean flipX, boolean flipY) {
 		Tile tile = new Tile(sprite, x, y, w, h, isSolid, Math.toRadians(rot), flipX, flipY);
+		return tile;
+	}
+	
+	public Tile createTile(Sprite sprite, int x, int y, int w, int h, boolean isSolid) {
+		Tile tile = new Tile(sprite, x, y, w, h, isSolid, 0, false, false);
 		return tile;
 	}
 	
@@ -91,7 +108,25 @@ public class Level {
 		return tiles;
 	}
 	
-	public ArrayList<Tile> getMapTiles() {
-		return mapTiles;
+	public Tile[] getMapTiles() {
+		return rawMapTiles;
+	}
+
+	public String[] getMapData() {
+		return rawMapData;
+	}
+	
+	public void render(GameCore gc, Render r) {
+		synchronized (getTiles()) {
+			for (int i = 0; i < getTiles().size(); i++) {
+				Tile tile = getTiles().get(i);
+				for (int x = 0; x < tile.getWidth(); x++) {
+					for (int y = 0; y < tile.getHeight(); y++) {
+						if (tile.getPixels()[x + y * tile.getWidth()] != gc.getSpriteBGColor())
+							r.setPixel(tile.getX() + x, tile.getY() + y, tile.getPixels()[x + y * tile.getWidth()]);
+					}
+				}
+			}
+		}
 	}
 }
