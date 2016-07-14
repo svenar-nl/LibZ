@@ -1,12 +1,13 @@
 language: java
+script: ant main
 jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk6
 matrix:
   fast_finish: true
-branches:
-  except:
-    - examples
-  only:
-    - master
+#branches:
+#  except:
+#    - examples
+#  only:
+#    - master
