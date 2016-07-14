@@ -1,0 +1,25 @@
+<project>
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <mkdir dir="build/classes/Font"/>
+        <copy todir="build/classes/Font">
+            <fileset dir="Java/res/Font">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <javac srcdir="Java/src" destdir="build/classes"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/LibZ.jar" basedir="build/classes"></jar>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/LibZ.jar" fork="true"/>
+    </target>
+</project>
