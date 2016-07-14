@@ -3,3 +3,10 @@ jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk6
+matrix:
+  fast_finish: true
+branches:
+  except:
+    - examples
+  only:
+    - master
