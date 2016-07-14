@@ -5,8 +5,3 @@ jdk:
   - oraclejdk8
 matrix:
   fast_finish: true
-#branches:
-#  except:
-#    - examples
-#  only:
-#    - master
