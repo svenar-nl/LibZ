@@ -12,7 +12,6 @@ public class Render {
 	private int width, height;
 	private int[] pixels, overlayPixels;
 	private GameCore gc;
-	private Font font = Font.STANDARD;
 	private int offsetX, offsetY;
 	private boolean translate = true;
 	
@@ -31,7 +30,7 @@ public class Render {
 			y -= offsetY;
 		}
 		
-		if ((x < 0 || x >= width || y < 0 || y >= height) || color == gc.getSpriteBGColor())// || colorDistance(0xFFFF00FF, color) < 300)
+		if ((x < 0 || x >= width || y < 0 || y >= height) || color == gc.getSpriteBGColor())
 			return;
 
 		pixels[x + y * width] = color;
@@ -43,18 +42,13 @@ public class Render {
 	}
 	
 	public void setOverlayPixel(int x, int y, int color) {
-		//if (translate) {
-		//	x -= offsetX;
-		//	y -= offsetY;
-		//}
-		
-		if ((x < 0 || x >= width || y < 0 || y >= height) || color == gc.getSpriteBGColor())// || colorDistance(0xFFFF00FF, color) < 300)
+		if ((x < 0 || x >= width || y < 0 || y >= height) || color == gc.getSpriteBGColor())
 			return;
 
 		getOverlayPixels()[x + y * width] = color;
 	}
 	
-	public void drawString(String text, int color, int offX, int offY){
+	public void drawString(String text, int color, int offX, int offY, Font font){
 		text = text.toUpperCase();
 
 		int offset = 0;
