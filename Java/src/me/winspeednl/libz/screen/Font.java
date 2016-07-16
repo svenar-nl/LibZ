@@ -3,7 +3,9 @@ package me.winspeednl.libz.screen;
 import me.winspeednl.libz.image.Image;
 
 public enum Font {
-	STANDARD("/Font/standard.png");
+	STANDARD("/Font/standard.png"),
+	STANDARDX2("/Font/standardx2.png"),
+	STANDARDX4("/Font/standardx4.png");
 	
 	public final int NumberUnicodes = 59;
 	public int[] offsets = new int[NumberUnicodes];
