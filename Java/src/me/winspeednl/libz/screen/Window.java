@@ -16,17 +16,18 @@ public class Window {
 	private JFrame frame;
 	private Canvas canvas;
 	private BufferedImage image;
-	private Graphics g;
-	private BufferStrategy bs;
+	private Graphics graphics;
+	private BufferStrategy bufferStrategy;
 	
 	public Window(GameCore gc) {
 		image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
 		
 		canvas = new Canvas();
-		Dimension s = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
-		canvas.setPreferredSize(s);
-		canvas.setMaximumSize(s);
-		canvas.setMaximumSize(s);
+		Dimension size = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
+		canvas.setPreferredSize(size);
+		canvas.setMaximumSize(size);
+		canvas.setMaximumSize(size);
+		canvas.setSize(size);
 		
 		frame = new JFrame(gc.getName());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,19 +39,19 @@ public class Window {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
-		canvas.createBufferStrategy(1);
-		bs = canvas.getBufferStrategy();
-		g = bs.getDrawGraphics();
+		canvas.createBufferStrategy(3);
+		bufferStrategy = canvas.getBufferStrategy();
+		graphics = bufferStrategy.getDrawGraphics();
 	}
 	
 	public void update() {
-		g.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
-		bs.show();
+		graphics.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
+		bufferStrategy.show();
 	}
 	
 	public void cleanUp() {
-		g.dispose();
-		bs.dispose();
+		bufferStrategy.dispose();
+		graphics.dispose();
 		image.flush();
 		frame.dispose();
 	}
