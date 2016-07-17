@@ -48,6 +48,10 @@ public class Render {
 		getOverlayPixels()[x + y * width] = color;
 	}
 	
+	public void drawString(String text, int color, int offX, int offY){
+		drawString(text, color, offX, offY, Font.STANDARD);
+	}
+		
 	public void drawString(String text, int color, int offX, int offY, Font font){
 		text = text.toUpperCase();
 
