@@ -168,4 +168,15 @@ public class AStar {
 		
 		return colls;
 	}
+	
+	public ArrayList<Node> getNodes(ArrayList<Node> path, int tileWidth, int tileHeight) {
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		for (int i = 0; i < path.size(); i++) {
+			Node node = path.get(i);
+			int x = node.getX() * tileWidth;
+			int y = node.getY() * tileHeight;
+			nodes.add(new Node(x, y));
+		}
+		return nodes;
+	}
 }
