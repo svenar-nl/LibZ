@@ -120,10 +120,14 @@ public class Level {
 		synchronized (getTiles()) {
 			for (int i = 0; i < getTiles().size(); i++) {
 				Tile tile = getTiles().get(i);
-				for (int x = 0; x < tile.getWidth(); x++) {
-					for (int y = 0; y < tile.getHeight(); y++) {
-						if (tile.getPixels()[x + y * tile.getWidth()] != gc.getSpriteBGColor())
-							r.setPixel(tile.getX() + x, tile.getY() + y, tile.getPixels()[x + y * tile.getWidth()]);
+				if (tile.getX() > gc.getOffsetX() - tile.getWidth() && tile.getX() < gc.getWidth() + gc.getOffsetX()) {
+					if (tile.getY() > gc.getOffsetY() - tile.getHeight() && tile.getY() < gc.getHeight() + gc.getOffsetY()) {
+						for (int x = 0; x < tile.getWidth(); x++) {
+							for (int y = 0; y < tile.getHeight(); y++) {
+								if (tile.getPixels()[x + y * tile.getWidth()] != gc.getSpriteBGColor())
+									r.setPixel(tile.getX() + x, tile.getY() + y, tile.getPixels()[x + y * tile.getWidth()]);
+							}
+						}
 					}
 				}
 			}
