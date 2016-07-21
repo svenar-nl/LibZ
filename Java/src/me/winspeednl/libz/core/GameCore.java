@@ -12,17 +12,15 @@ public class GameCore implements Runnable {
 	private Input input;
 	
 	private int width = 320, height = 240;
-	private float scale = 2f;
+	private int scale = 1;
 	private String name = "LibZ";
 	
 	private double frameCap = 1D / 60D;
 	private boolean isRunning = false;
-	private int spriteBGColor = 0xFF0000FF;
+	private int spriteBGColor = 0xFF000000;
 	private int fps = 0;
 	private int offsetX, offsetY;
-	
-	private boolean debug = false;
-	
+		
 	private int playerX, playerY;
 	
 	public GameCore(LibZ game) {
@@ -76,7 +74,6 @@ public class GameCore implements Runnable {
 					frameTime = 0;
 					fps = frames;
 					frames = 0;
-					if(debug) System.out.println("FPS: " + fps);
 				}
 			}
 			
@@ -131,7 +128,7 @@ public class GameCore implements Runnable {
 		return scale;
 	}
 
-	public void setScale(float scale) {
+	public void setScale(int scale) {
 		this.scale = scale;
 	}
 
@@ -177,10 +174,6 @@ public class GameCore implements Runnable {
 
 	public int fps() {
 		return fps;
-	}
-
-	public void setDebug(boolean debug) {
-		this.debug = debug;
 	}
 
 	public int getOffsetX() {
