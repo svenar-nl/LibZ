@@ -88,6 +88,30 @@ public class Render {
         return image;
 	}
 	
+	public BufferedImage flip(BufferedImage inputImage, boolean horizontal, boolean vertical) {
+		BufferedImage image = inputImage;
+		AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+		AffineTransformOp op;
+		
+		if (horizontal && !vertical) {
+			tx = AffineTransform.getScaleInstance(-1, 1);
+			tx.translate(-image.getWidth(null), 0);
+			op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			image = op.filter(image, null);
+		} else if (!horizontal && vertical) {
+			tx.translate(0, -image.getHeight(null));
+			op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			image = op.filter(image, null);
+		} else {
+			tx = AffineTransform.getScaleInstance(-1, -1);
+			tx.translate(-image.getWidth(null), -image.getHeight(null));
+			op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			image = op.filter(image, null);
+		}
+		
+		return image;
+	}
+	
 	public BufferedImage getImageFromArray(int[] pixels, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         image.setRGB(0, 0, width, height, pixels, 0, width);
