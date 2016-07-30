@@ -197,6 +197,16 @@ public class Tile {
 		return sprite;
 	}
 	
+	public void setSprite(String sprite) {
+		this.sprite = sprite;
+		pixels = new Sprite(sprite, 0, 0, w, h).pixels;
+	}
+	
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite.path;
+		pixels = sprite.pixels;
+	}
+	
 	public boolean isFlippedX() {
 		return flipX;
 	}
