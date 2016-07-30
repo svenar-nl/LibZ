@@ -13,7 +13,7 @@ public class GameCore implements Runnable {
 	
 	private int width = 320, height = 240;
 	private int scale = 1;
-	private String name = "LibZ";
+	private String title = "LibZ";
 	
 	private double frameCap = 1D / 60D;
 	private boolean isRunning = false;
@@ -21,8 +21,6 @@ public class GameCore implements Runnable {
 	private int fps = 0;
 	private int offsetX, offsetY;
 		
-	private int playerX, playerY;
-	
 	public GameCore(LibZ game) {
 		this.game = game;
 	}
@@ -101,13 +99,9 @@ public class GameCore implements Runnable {
 			}
 		}
 		
-		cleanup();
+		window.cleanup();
 	}
 	
-	public void cleanup() {
-		window.cleanUp();
-	}
-
 	public int getWidth() {
 		return width;
 	}
@@ -124,7 +118,7 @@ public class GameCore implements Runnable {
 		this.height = height;
 	}
 
-	public float getScale() {
+	public int getScale() {
 		return scale;
 	}
 
@@ -132,12 +126,12 @@ public class GameCore implements Runnable {
 		this.scale = scale;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Window getWindow() {
@@ -146,22 +140,6 @@ public class GameCore implements Runnable {
 
 	public Input getInput() {
 		return input;
-	}
-
-	public int getPlayerX() {
-		return playerX;
-	}
-
-	public void setPlayerX(int playerX) {
-		this.playerX = playerX;
-	}
-
-	public int getPlayerY() {
-		return playerY;
-	}
-
-	public void setPlayerY(int playerY) {
-		this.playerY = playerY;
 	}
 
 	public int getSpriteBGColor() {
