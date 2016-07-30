@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import me.winspeednl.libz.core.GameCore;
+import me.winspeednl.libz.image.Image;
 
 public class Render {
 	
@@ -52,6 +53,41 @@ public class Render {
 		drawString(text, color, offX, offY, Font.STANDARD);
 	}
 		
+	public void drawString(String text, int color, int offX, int offY, String path){
+		final int NumberUnicodes = 59;
+		int[] offsets = new int[NumberUnicodes];
+		int[] widths = new int[NumberUnicodes];
+		Image image;
+		
+		image = new Image(path);
+		int unicode = -1;
+		for(int x = 0; x < image.width; x++) {
+			int Color = image.imagePixels[x];
+			if(Color == 0xff0000ff) {
+				unicode++;
+				offsets[unicode] = x;
+			}
+			if(Color == 0xffffff00)
+				widths[unicode] = x - offsets[unicode];
+		}
+		
+		text = text.toUpperCase();
+
+		int offset = 0;
+		for (int i = 0; i < text.length(); i++) {
+			int Unicode = text.codePointAt(i) - 32;
+
+			for (int x = 0; x < widths[Unicode]; x++) {
+				for (int y = 1; y < image.height; y++) {
+					if (image.imagePixels[(x + offsets[Unicode]) + y * image.width] == 0xffffffff)
+						setOverlayPixel(x + offX + offset, y + offY - 1, color);
+				}
+			}
+
+			offset += widths[Unicode];
+		}
+	}
+	
 	public void drawString(String text, int color, int offX, int offY, Font font){
 		text = text.toUpperCase();
 
