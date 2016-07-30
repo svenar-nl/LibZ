@@ -108,6 +108,10 @@ public class Level {
 		return tiles;
 	}
 	
+	public void setTile(int index, Tile tile) {
+		tiles.set(index, tile);
+	}
+	
 	public Tile[] getMapTiles() {
 		return rawMapTiles;
 	}
