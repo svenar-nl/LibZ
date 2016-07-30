@@ -29,7 +29,7 @@ public class Window {
 		canvas.setMaximumSize(size);
 		canvas.setSize(size);
 		
-		frame = new JFrame(gc.getName());
+		frame = new JFrame(gc.getTitle());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frame.setLayout(new BorderLayout());
@@ -49,7 +49,7 @@ public class Window {
 		bufferStrategy.show();
 	}
 	
-	public void cleanUp() {
+	public void cleanup() {
 		bufferStrategy.dispose();
 		graphics.dispose();
 		image.flush();
