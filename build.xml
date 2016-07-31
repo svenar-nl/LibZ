@@ -23,6 +23,6 @@
 		<java jar="build/jar/LibZ.jar" fork="true"/>
 	</target>
 
-	<target name="main" depends="clean,run"/>
+	<target name="main" depends="jar"/>
 
 </project>
