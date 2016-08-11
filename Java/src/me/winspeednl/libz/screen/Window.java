@@ -20,7 +20,7 @@ public class Window {
 	private BufferStrategy bufferStrategy;
 	
 	public Window(GameCore gc) {
-		image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		
 		canvas = new Canvas();
 		Dimension size = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
@@ -38,10 +38,14 @@ public class Window {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		frame.toFront();
+		frame.requestFocus();
 		
 		canvas.createBufferStrategy(3);
 		bufferStrategy = canvas.getBufferStrategy();
 		graphics = bufferStrategy.getDrawGraphics();
+		
+		canvas.requestFocus();
 	}
 	
 	public void update() {
@@ -58,6 +62,10 @@ public class Window {
 
 	public Canvas getCanvas() {
 		return canvas;
+	}
+	
+	public JFrame getFrame() {
+		return frame;
 	}
 
 	public BufferedImage getImage() {
