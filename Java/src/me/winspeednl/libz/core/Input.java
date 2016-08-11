@@ -71,19 +71,19 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener {
 	public void mouseExited(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
-		buttons[e.getButton()] = true;
+		try {buttons[e.getButton()] = true;} catch (Exception ex) {}
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		buttons[e.getButton()] = false;
+		try {buttons[e.getButton()] = false;} catch (Exception ex) {}
 	}
 
 	public void keyPressed(KeyEvent e) {
-		keys[e.getKeyCode()] = true;
+		try {keys[e.getKeyCode()] = true;} catch (Exception ex) {}
 	}
 
 	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
+		try {keys[e.getKeyCode()] = false;} catch (Exception ex) {}
 	}
 
 	public void keyTyped(KeyEvent e) {}
