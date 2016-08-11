@@ -7,6 +7,7 @@ import java.awt.image.DataBufferInt;
 
 import me.winspeednl.libz.core.GameCore;
 import me.winspeednl.libz.image.Image;
+import me.winspeednl.libz.image.Sprite;
 
 public class Render {
 	
@@ -88,6 +89,39 @@ public class Render {
 		}
 	}
 	
+	public void drawString(String text, int color, int offX, int offY, Sprite sprite){
+		final int NumberUnicodes = 59;
+		int[] offsets = new int[NumberUnicodes];
+		int[] widths = new int[NumberUnicodes];
+		
+		int unicode = -1;
+		for(int x = 0; x < sprite.w; x++) {
+			int Color = sprite.pixels[x];
+			if(Color == 0xff0000ff) {
+				unicode++;
+				offsets[unicode] = x;
+			}
+			if(Color == 0xffffff00)
+				widths[unicode] = x - offsets[unicode];
+		}
+		
+		text = text.toUpperCase();
+
+		int offset = 0;
+		for (int i = 0; i < text.length(); i++) {
+			int Unicode = text.codePointAt(i) - 32;
+
+			for (int x = 0; x < widths[Unicode]; x++) {
+				for (int y = 1; y < sprite.h; y++) {
+					if (sprite.pixels[(x + offsets[Unicode]) + y * sprite.w] == 0xffffffff)
+						setOverlayPixel(x + offX + offset, y + offY - 1, color);
+				}
+			}
+
+			offset += widths[Unicode];
+		}
+	}
+	
 	public void drawString(String text, int color, int offX, int offY, Font font){
 		text = text.toUpperCase();
 
@@ -103,6 +137,63 @@ public class Render {
 			}
 
 			offset += font.widths[unicode];
+		}
+	}
+	
+	public int getStringWidth(String text, Font font) {
+		text = text.toUpperCase();
+		int width = 0;
+		for (int i = 0; i < text.length(); i++) {
+			int unicode = text.codePointAt(i) - 32;
+			width += font.widths[unicode];
+		}
+		return width;
+	}
+	
+	public int getStringWidth(String text, Sprite sprite) {
+		final int NumberUnicodes = 59;
+		int[] offsets = new int[NumberUnicodes];
+		int[] widths = new int[NumberUnicodes];
+		
+		int unicode = -1;
+		for(int x = 0; x < sprite.w; x++) {
+			int Color = sprite.pixels[x];
+			if(Color == 0xff0000ff) {
+				unicode++;
+				offsets[unicode] = x;
+			}
+			if(Color == 0xffffff00)
+				widths[unicode] = x - offsets[unicode];
+		}
+		
+		text = text.toUpperCase();
+		int width = 0;
+		for (int i = 0; i < text.length(); i++) {
+			int Unicode = text.codePointAt(i) - 32;
+			width += widths[Unicode];
+		}
+		return width;
+	}
+	
+	public void drawRect(int x, int y, int w, int h, int color, int thickness, boolean fill) {
+		if (fill) {
+			for (int xi = 0; xi < w; xi++) {
+				for (int yi = 0; yi < h; yi++) {
+					setOverlayPixel(x + xi, y + yi, color);
+				}
+			}
+		} else {
+			for (int i = 0; i < thickness; i++) {
+				for (int xi = 0; xi < w; xi++) {
+					setPixel(x + xi, y + i, color);
+					setPixel(x + xi, y + h - i, color);
+				}
+				
+				for (int yi = 0; yi < h; yi++) {
+					setPixel(x + i, y + yi, color);
+					setPixel(x + w - i, y + yi, color);
+				}
+			}
 		}
 	}
 
