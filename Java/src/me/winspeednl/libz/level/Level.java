@@ -112,6 +112,10 @@ public class Level {
 		tiles.set(index, tile);
 	}
 	
+	public void setTile(int x, int y, Tile tile) {
+		tiles.set(x + y * width, tile);
+	}
+	
 	public Tile[] getMapTiles() {
 		return rawMapTiles;
 	}
