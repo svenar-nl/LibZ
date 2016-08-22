@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
@@ -20,18 +21,36 @@ public class Window {
 	private BufferStrategy bufferStrategy;
 	
 	public Window(GameCore gc) {
-		image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		
 		canvas = new Canvas();
-		Dimension size = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
-		canvas.setPreferredSize(size);
-		canvas.setMaximumSize(size);
-		canvas.setMaximumSize(size);
-		canvas.setSize(size);
-		
-		frame = new JFrame(gc.getTitle());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		frame = new JFrame(gc.getTitle());
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		if (gc.isFullscreen()) {
+			GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			Dimension size = new Dimension((int)env.getMaximumWindowBounds().getWidth(), (int)env.getMaximumWindowBounds().getHeight());
+			gc.setWidth(size.width);
+			gc.setHeight(size.height);
+			gc.lockScreenSize();
+
+			image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
+			canvas.setPreferredSize(size);
+			canvas.setMaximumSize(size);
+			canvas.setMaximumSize(size);
+			canvas.setSize(size);
+			
+			frame.setUndecorated(true);
+		} else {
+			image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+			Dimension size = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
+			canvas.setPreferredSize(size);
+			canvas.setMaximumSize(size);
+			canvas.setMaximumSize(size);
+			canvas.setSize(size);
+		}
+		
 		frame.setLayout(new BorderLayout());
 		frame.add(canvas, BorderLayout.CENTER);
 		frame.pack();
@@ -49,7 +68,7 @@ public class Window {
 	}
 	
 	public void update() {
-		graphics.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
+		graphics.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
 		bufferStrategy.show();
 	}
 	
