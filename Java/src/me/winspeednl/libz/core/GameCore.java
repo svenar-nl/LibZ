@@ -16,7 +16,7 @@ public class GameCore implements Runnable {
 	private String title = "LibZ";
 	
 	private double frameCap = 1D / 60D;
-	private boolean isRunning = false;
+	private boolean isRunning = false, fullscreen = false, screenSizeLocked = false;
 	private int spriteBGColor = 0xFF000000;
 	private int fps = 0;
 	private int offsetX, offsetY;
@@ -102,12 +102,25 @@ public class GameCore implements Runnable {
 		window.cleanup();
 	}
 	
+	public void fullscreen() {
+		fullscreen = true;
+	}
+	
+	public void lockScreenSize() {
+		screenSizeLocked = true;
+	}
+	
+	public boolean isFullscreen() {
+		return fullscreen;
+	}
+	
 	public int getWidth() {
 		return width;
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		if (!screenSizeLocked)
+			this.width = width;
 	}
 
 	public int getHeight() {
@@ -115,7 +128,8 @@ public class GameCore implements Runnable {
 	}
 
 	public void setHeight(int height) {
-		this.height = height;
+		if (!screenSizeLocked)
+			this.height = height;
 	}
 
 	public int getScale() {
@@ -123,7 +137,8 @@ public class GameCore implements Runnable {
 	}
 
 	public void setScale(int scale) {
-		this.scale = scale;
+		if (!screenSizeLocked)
+			this.scale = scale;
 	}
 
 	public String getTitle() {
