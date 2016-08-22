@@ -179,7 +179,7 @@ public class Render {
 		if (fill) {
 			for (int xi = 0; xi < w; xi++) {
 				for (int yi = 0; yi < h; yi++) {
-					setOverlayPixel(x + xi, y + yi, color);
+					setPixel(x + xi, y + yi, color);
 				}
 			}
 		} else {
