@@ -47,6 +47,11 @@ public class Level {
 		}
 	}
 	
+	private Tile createTile(Sprite sprite, int x, int y, int w, int h, double rot, boolean isSolid, boolean flipX, boolean flipY) {
+		Tile tile = new Tile(sprite, x, y, w, h, isSolid, Math.toRadians(rot), flipX, flipY);
+		return tile;
+	}
+
 	public int getWidth() {
 		return width;
 	}

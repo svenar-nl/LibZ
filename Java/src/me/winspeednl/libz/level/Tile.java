@@ -3,6 +3,7 @@ package me.winspeednl.libz.level;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import me.winspeednl.libz.image.Sprite;
 
@@ -12,9 +13,22 @@ public class Tile {
 	double rot;
 	private boolean isSolid, flipX = false, flipY = false;
 	private int[] pixels;
-	private String sprite;
+	private Sprite sprite;
 	
-	public Tile(String sprite, int x, int y, int w, int h, boolean isSolid, double rot, boolean flipX, boolean flipY) {
+	public Tile(String path, int x, int y, int w, int h, boolean isSolid, double rot, boolean flipX, boolean flipY) {
+		this.sprite = new Sprite(path, 0, 0, w, h);
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.isSolid = isSolid;
+		this.rot = rot;
+		this.flipX = flipX;
+		this.flipY = flipY;
+		
+		pixels = sprite.pixels;
+	}
+	public Tile(Sprite sprite, int x, int y, int w, int h, boolean isSolid, double rot, boolean flipX, boolean flipY) {
 		this.sprite = sprite;
 		this.x = x;
 		this.y = y;
@@ -25,10 +39,10 @@ public class Tile {
 		this.flipX = flipX;
 		this.flipY = flipY;
 		
-		pixels = new Sprite(sprite, 0, 0, w, h).pixels;
+		pixels = sprite.pixels;
 	}
-	public Tile(Sprite sprite, int x, int y, int w, int h, boolean isSolid, double rot, boolean flipX, boolean flipY) {
-		this.sprite = sprite.path;
+	public Tile(File file, int x, int y, int w, int h, boolean isSolid, double rot, boolean flipX, boolean flipY) {
+		this.sprite = new Sprite(file, 0, 0, w, h);
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -41,7 +55,21 @@ public class Tile {
 		pixels = sprite.pixels;
 	}
 	
-	public Tile(String sprite, int x, int y, int w, int h, boolean isSolid) {
+	public Tile(String path, int x, int y, int w, int h, boolean isSolid) {
+		this.sprite = new Sprite(path, 0, 0, w, h);
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.isSolid = isSolid;
+		this.rot = 0.0;
+		this.flipX = false;
+		this.flipY = false;
+		
+		pixels = sprite.pixels;
+	}
+	
+	public Tile(Sprite sprite, int x, int y, int w, int h, boolean isSolid) {
 		this.sprite = sprite;
 		this.x = x;
 		this.y = y;
@@ -52,11 +80,10 @@ public class Tile {
 		this.flipX = false;
 		this.flipY = false;
 		
-		pixels = new Sprite(sprite, 0, 0, w, h).pixels;
+		pixels = sprite.pixels;
 	}
-	
-	public Tile(Sprite sprite, int x, int y, int w, int h, boolean isSolid) {
-		this.sprite = sprite.path;
+	public Tile(File file, int x, int y, int w, int h, boolean isSolid) {
+		this.sprite = new Sprite(file, 0, 0, w, h);
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -193,17 +220,17 @@ public class Tile {
 		this.isSolid = isSolid;
 	}
 
-	public String getSprite() {
+	public Sprite getSprite() {
 		return sprite;
 	}
 	
-	public void setSprite(String sprite) {
-		this.sprite = sprite;
-		pixels = new Sprite(sprite, 0, 0, w, h).pixels;
+	public void setSprite(String path) {
+		this.sprite = new Sprite(path, 0, 0, w, h);
+		pixels = sprite.pixels;
 	}
 	
 	public void setSprite(Sprite sprite) {
-		this.sprite = sprite.path;
+		this.sprite = sprite;
 		pixels = sprite.pixels;
 	}
 	
