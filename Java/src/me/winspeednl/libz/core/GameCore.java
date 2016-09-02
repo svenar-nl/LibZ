@@ -32,11 +32,11 @@ public class GameCore implements Runnable {
 		window = new Window(this);
 		renderer = new Render(this);
 		input = new Input(this);
-		
+		game.init(this);
+
 		isRunning = true;
 		thread = new Thread(this);
 		thread.start();
-		game.init(this);
 	}
 	
 	public void stop() {
