@@ -38,16 +38,15 @@ public class Render {
 		pixels[x + y * width] = color;
 	}
 	
-
-	public void setPixel(int pixel, int color) {
-		pixels[pixel] = color;
-	}
-	
 	public void setOverlayPixel(int x, int y, int color) {
 		if ((x < 0 || x >= width || y < 0 || y >= height) || color == gc.getSpriteBGColor())
 			return;
 
 		getOverlayPixels()[x + y * width] = color;
+	}
+
+	public void setPixel(int pixel, int color) {
+		pixels[pixel] = color;
 	}
 	
 	public void drawString(String text, int color, int offX, int offY){
@@ -192,6 +191,28 @@ public class Render {
 				for (int yi = 0; yi < h; yi++) {
 					setPixel(x + i, y + yi, color);
 					setPixel(x + w - i, y + yi, color);
+				}
+			}
+		}
+	}
+	
+	public void drawOverlayRect(int x, int y, int w, int h, int color, int thickness, boolean fill) {
+		if (fill) {
+			for (int xi = 0; xi < w; xi++) {
+				for (int yi = 0; yi < h; yi++) {
+					setOverlayPixel(x + xi, y + yi, color);
+				}
+			}
+		} else {
+			for (int i = 0; i < thickness; i++) {
+				for (int xi = 0; xi < w; xi++) {
+					setOverlayPixel(x + xi, y + i, color);
+					setOverlayPixel(x + xi, y + h - i, color);
+				}
+				
+				for (int yi = 0; yi < h; yi++) {
+					setOverlayPixel(x + i, y + yi, color);
+					setOverlayPixel(x + w - i, y + yi, color);
 				}
 			}
 		}
