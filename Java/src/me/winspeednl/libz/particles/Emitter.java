@@ -43,7 +43,7 @@ public class Emitter {
 	public void update() {
 		for (int i = 0; i < particles.size(); i++) {
 			Particle particle = particles.get(i);
-			if (particle.getX() < 0 || particle.getY() < 0 || particle.getX() > gc.getWidth() || particle.getY() > gc.getHeight()) {
+			if (particle.getX() < gc.getOffsetX() || particle.getY() < gc.getOffsetY() || particle.getX() > gc.getOffsetX() + gc.getWidth() || particle.getY() > gc.getOffsetY() + gc.getHeight()) {
 				particles.remove(i);
 				particlesAlive--;
 			}
