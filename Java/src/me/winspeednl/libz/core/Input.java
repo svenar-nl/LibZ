@@ -20,9 +20,9 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener {
 	
 	public Input(GameCore gc){
 		this.gc = gc;
-		gc.getWindow().getCanvas().addKeyListener(this);
-		gc.getWindow().getCanvas().addMouseListener(this);
-		gc.getWindow().getCanvas().addMouseMotionListener(this);
+		gc.getScreen().getCanvas().addKeyListener(this);
+		gc.getScreen().getCanvas().addMouseListener(this);
+		gc.getScreen().getCanvas().addMouseMotionListener(this);
 	}
 	
 	public void update() {
