@@ -22,7 +22,7 @@ public class Render {
 		this.width = gc.getWidth();
 		this.height = gc.getHeight();
 		
-		pixels = ((DataBufferInt) gc.getWindow().getImage().getRaster().getDataBuffer()).getData();
+		pixels = ((DataBufferInt) gc.getScreen().getImage().getRaster().getDataBuffer()).getData();
 		overlayPixels = new int[pixels.length];
 	}
 	
@@ -79,7 +79,7 @@ public class Render {
 
 			for (int x = 0; x < widths[Unicode]; x++) {
 				for (int y = 1; y < image.height; y++) {
-					if (image.imagePixels[(x + offsets[Unicode]) + y * image.width] == 0xffffffff)
+					if (image.imagePixels[(x + offsets[Unicode]) + y * image.width] == 0xFFFFFFFF)
 						setOverlayPixel(x + offX + offset, y + offY - 1, color);
 				}
 			}
@@ -112,7 +112,7 @@ public class Render {
 
 			for (int x = 0; x < widths[Unicode]; x++) {
 				for (int y = 1; y < sprite.h; y++) {
-					if (sprite.pixels[(x + offsets[Unicode]) + y * sprite.w] == 0xffffffff)
+					if (sprite.pixels[(x + offsets[Unicode]) + y * sprite.w] == 0xFFFFFFFF)
 						setOverlayPixel(x + offX + offset, y + offY - 1, color);
 				}
 			}
@@ -130,7 +130,7 @@ public class Render {
 
 			for (int x = 0; x < font.widths[unicode]; x++) {
 				for (int y = 1; y < font.image.height; y++) {
-					if (font.image.imagePixels[(x + font.offsets[unicode]) + y * font.image.width] == 0xffffffff)
+					if (font.image.imagePixels[(x + font.offsets[unicode]) + y * font.image.width] == 0xFFFFFFFF)
 						setOverlayPixel(x + offX + offset, y + offY - 1, color);
 				}
 			}
@@ -222,7 +222,7 @@ public class Render {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				pixels[x + y * width] = 0xFF000000;
-				getOverlayPixels()[x + y * width] = 0xFF000000;
+				overlayPixels[x + y * width] = gc.getSpriteBGColor();
 			}
 		}
 	}
