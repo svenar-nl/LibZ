@@ -12,6 +12,10 @@ public abstract class LibZ_Entity {
 	public abstract void update(GameCore gc);
 	public abstract void render(GameCore gc, Render r);
 	
+	public void taskTriggered(String taskName) {
+		// This method needs to be overwritten to deal with tasks
+	}
+	
 	public boolean collides(int x1, int y1, int w1, int h1) {
 		Rectangle object1 = new Rectangle(x, y, w, h);
 		Rectangle object2 = new Rectangle(x1, y1, w1, h1);
