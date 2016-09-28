@@ -42,6 +42,12 @@ public class Image {
 		
 		image.flush();
 	}
+	
+	public Image(Sprite sprite) {
+		width = sprite.width;
+		height = sprite.height;
+		imagePixels = sprite.pixels;
+	}
 
 	public Image(int w, int h, int[] p) {
 		this.width = w;
