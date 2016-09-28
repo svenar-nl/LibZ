@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 
 import me.winspeednl.libz.core.GameCore;
 
-public class Window {
+public class Screen {
 	
 	private JFrame frame;
 	private Canvas canvas;
@@ -20,7 +20,7 @@ public class Window {
 	private Graphics graphics;
 	private BufferStrategy bufferStrategy;
 	
-	public Window(GameCore gc) {
+	public Screen(GameCore gc) {
 		
 		canvas = new Canvas();
 
@@ -35,6 +35,7 @@ public class Window {
 			gc.lockScreenSize();
 
 			image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
+			
 			canvas.setPreferredSize(size);
 			canvas.setMaximumSize(size);
 			canvas.setMaximumSize(size);
@@ -49,6 +50,8 @@ public class Window {
 			canvas.setMaximumSize(size);
 			canvas.setMaximumSize(size);
 			canvas.setSize(size);
+			
+			if (!gc.isDecorated()) frame.setUndecorated(true);
 		}
 		
 		frame.setLayout(new BorderLayout());
