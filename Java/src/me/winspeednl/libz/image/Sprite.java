@@ -29,4 +29,15 @@ public class Sprite extends Image {
 				
 		this.pixels = imagePixels;
 	}
+	
+	public Sprite(Sprite sprite, int x, int y, int w, int h) {
+		super(sprite);
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.path = sprite.path;
+				
+		this.pixels = imagePixels;
+	}
 }
