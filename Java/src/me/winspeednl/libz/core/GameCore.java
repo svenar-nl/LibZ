@@ -1,13 +1,13 @@
 package me.winspeednl.libz.core;
 
 import me.winspeednl.libz.screen.Render;
-import me.winspeednl.libz.screen.Window;
+import me.winspeednl.libz.screen.Screen;
 
 public class GameCore implements Runnable {
 	
 	private Thread thread;
 	private LibZ game;
-	private Window window;
+	private Screen screen;
 	public Render renderer;
 	private Input input;
 	
@@ -16,8 +16,8 @@ public class GameCore implements Runnable {
 	private String title = "LibZ";
 	
 	private double frameCap = 1D / 60D;
-	private boolean isRunning = false, fullscreen = false, screenSizeLocked = false;
-	private int spriteBGColor = 0xFF000000;
+	private boolean isRunning = false, fullscreen = false, undecorated = false, screenSizeLocked = false;
+	private int spriteBGColor = 0x00000000;
 	private int fps = 0;
 	private int offsetX, offsetY;
 		
@@ -29,7 +29,7 @@ public class GameCore implements Runnable {
 		if (isRunning)
 			return;
 		
-		window = new Window(this);
+		screen = new Screen(this);
 		renderer = new Render(this);
 		input = new Input(this);
 		game.init(this);
@@ -83,12 +83,12 @@ public class GameCore implements Runnable {
 				game.render(this, renderer);
 				
 				for (int i = 0; i < renderer.getOverlayPixels().length; i++) {
-					if (renderer.getOverlayPixels()[i] != 0xFF000000)
+					if (renderer.getOverlayPixels()[i] != spriteBGColor)
 						renderer.setPixel(i, renderer.getOverlayPixels()[i]);
 				}
 				
-				window.update();
-				
+				screen.update();
+
 				frames++;
 			} else {
 				try {
@@ -99,7 +99,7 @@ public class GameCore implements Runnable {
 			}
 		}
 		
-		window.cleanup();
+		screen.cleanup();
 	}
 	
 	public void fullscreen() {
@@ -149,8 +149,8 @@ public class GameCore implements Runnable {
 		this.title = title;
 	}
 
-	public Window getWindow() {
-		return window;
+	public Screen getScreen() {
+		return screen;
 	}
 
 	public Input getInput() {
@@ -183,5 +183,13 @@ public class GameCore implements Runnable {
 	
 	public void setOffsetY(int offsetY) {
 		renderer.setOffsetY(offsetY);
+	}
+
+	public boolean isDecorated() {
+		return !undecorated;
+	}
+	
+	public void undecorated() {
+		undecorated = true;
 	}
 }
