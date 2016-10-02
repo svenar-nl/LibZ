@@ -8,7 +8,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 public class Sound {
-	AudioInputStream audioInputStream;
+    AudioInputStream audioInputStream;
     Clip clip;
     
     public Sound(String path) {
@@ -16,12 +16,12 @@ public class Sound {
     		BufferedInputStream myStream = new BufferedInputStream(getClass().getResourceAsStream(path));
     		audioInputStream = AudioSystem.getAudioInputStream(myStream);
     		
-			DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
+		DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
 	        clip = (Clip)AudioSystem.getLine(info);
-			clip.open(audioInputStream);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		clip.open(audioInputStream);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
     }
     
     public void play() {
