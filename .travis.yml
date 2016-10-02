@@ -9,4 +9,5 @@ matrix:
     - os: osx
       osx_image: xcode8
       before_install:
-        - sudo port install apache-ant
+        - brew update
+        - brew install ant
