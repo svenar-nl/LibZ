@@ -53,6 +53,6 @@ public class Node {
 	
 	@Override
 	public String toString(){
-		return this.getX() + "," + this.getY();
+		return "Node(" + this.getX() + "," + this.getY() + ")";
 	}
 }

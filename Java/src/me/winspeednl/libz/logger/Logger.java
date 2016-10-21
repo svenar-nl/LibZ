@@ -29,7 +29,7 @@ public class Logger {
 		minimalOutput = bool;
 	}
 	
-	public void log(String Type, String ansiColor, String message) {
+	private void log(String Type, String ansiColor, String message) {
 		LocalDateTime currentTime = LocalDateTime.now();
 		String timeStamp = "[" + currentTime.getHour() + ":" + currentTime.getMinute() + ":" + currentTime.getSecond() + "] ";
 		

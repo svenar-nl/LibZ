@@ -14,7 +14,7 @@ public abstract class Menu {
 	private String guideText = "";
 	private int selected = 0;
 	private Font font = Font.STANDARDX4;
-	private boolean keyPressed = false, useArrowKeys = false, useMouse = false;
+	private boolean keyPressed = false, useArrowKeys = false;
 	
 	public Menu(GameCore gc, ArrayList<String> items) {
 		this.items = items;
@@ -43,17 +43,10 @@ public abstract class Menu {
 			}
 			keyPressed = gc.getInput().isKeyPressed(KeyEvent.VK_UP) || gc.getInput().isKeyPressed(KeyEvent.VK_DOWN) || gc.getInput().isKeyPressed(KeyEvent.VK_ENTER);
 		}
-		if (useMouse) {
-			
-		}
 	}
 	
 	public void arrowKeys(boolean bool) {
 		useArrowKeys = bool;
-	}
-	
-	public void mouse(boolean bool) {
-		useMouse = bool;
 	}
 	
 	public void render(GameCore gc, Render r) {

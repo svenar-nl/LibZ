@@ -1,5 +1,7 @@
 package me.winspeednl.libz.core;
 
+import java.awt.Dimension;
+
 import me.winspeednl.libz.screen.Render;
 import me.winspeednl.libz.screen.Screen;
 
@@ -16,7 +18,7 @@ public class GameCore implements Runnable {
 	private String title = "LibZ";
 	
 	private double frameCap = 1D / 60D;
-	private boolean isRunning = false, fullscreen = false, undecorated = false, screenSizeLocked = false;
+	private boolean fullscreen = false, undecorated = false, screenSizeLocked = false;
 	private int spriteBGColor = 0x00000000;
 	private int fps = 0;
 	private int offsetX, offsetY;
@@ -25,24 +27,18 @@ public class GameCore implements Runnable {
 		this.game = game;
 	}
 	
-	public void start() {
-		if (isRunning)
-			return;
-		
+	public void start() {		
 		screen = new Screen(this);
 		renderer = new Render(this);
 		input = new Input(this);
 		game.init(this);
 
-		isRunning = true;
 		thread = new Thread(this);
 		thread.start();
 	}
 	
 	public void stop() {
-		if (!isRunning)
-			return;
-		isRunning = false;
+		thread.interrupt();
 	}
 	
 	public void run() {		
@@ -53,7 +49,7 @@ public class GameCore implements Runnable {
 		double frameTime = 0;
 		int frames = 0;
 		
-		while (isRunning) {
+		while (!thread.isInterrupted()) {
 			boolean render = false;
 			
 			currTime = System.nanoTime() / 1000000000D;
@@ -130,6 +126,20 @@ public class GameCore implements Runnable {
 	public void setHeight(int height) {
 		if (!screenSizeLocked)
 			this.height = height;
+	}
+	
+	public void setSize(int width, int height) {
+		if (!screenSizeLocked) {
+			this.width = width;
+			this.height = height;
+		}
+	}
+	
+	public void setSize(Dimension dimension) {
+		if (!screenSizeLocked) {
+			this.width = dimension.width;
+			this.height = dimension.height;
+		}
 	}
 
 	public int getScale() {

@@ -50,13 +50,11 @@ public class AStar {
 		Node current;
 		while(true){ 
 			current = open.poll();
-			if(current == null)
-				break;
+			if(current == null) break;
 			closed[current.getX()][current.getY()] = true; 
-					if(current.equals(grid[endX][endY])) {
-				return; 
-			} 
+			if(current.equals(grid[endX][endY])) return; 
 			Node t;  
+			
 			if(current.getX() - 1 >= 0){
 				t = grid[current.getX() - 1][current.getY()];
 				checkAndUpdateCost(current, t, current.getFCost() + V_H_COST); 
@@ -70,15 +68,18 @@ public class AStar {
 						checkAndUpdateCost(current, t, current.getFCost() + DIAGONAL_COST); 
 					}
 				}
-			} 
+			}
+			
 			if(current.getY() - 1 >= 0){
 				t = grid[current.getX()][current.getY() - 1];
 				checkAndUpdateCost(current, t, current.getFCost() + V_H_COST); 
 			}
+			
 			if(current.getY() + 1 < grid[0].length){
 				t = grid[current.getX()][current.getY() + 1];
 				checkAndUpdateCost(current, t, current.getFCost() + V_H_COST); 
 			}
+			
 			if(current.getX() + 1 < grid.length){
 				t = grid[current.getX() + 1][current.getY()];
 				checkAndUpdateCost(current, t, current.getFCost() + V_H_COST); 
@@ -105,8 +106,7 @@ public class AStar {
 			open = new PriorityQueue<>((Object o1, Object o2) -> {
 				Node c1 = (Node)o1;
 				Node c2 = (Node)o2;
-				return c1.getFCost() < c2.getFCost() ? - 1:
-					c1.getFCost() > c2.getFCost() ? 1 : 0;
+				return c1.getFCost() < c2.getFCost() ? -1 : c1.getFCost() > c2.getFCost() ? 1 : 0;
 			});
 
 			setStartCell(sx, sy);
@@ -114,7 +114,7 @@ public class AStar {
 			for(int x = 0; x < width; x++){
 				for(int y = 0; y < height; y++){
 					grid[x][y] = new Node(x, y);
-					grid[x][y].setHCost(Math.abs(x-ex)+Math.abs(x-ey));
+					grid[x][y].setHCost(Math.abs(x - ex) + Math.abs(x - ey));
 				}
 			}
 			grid[sx][sy].setFCost(0);
@@ -131,13 +131,13 @@ public class AStar {
 		
 			if(closed[endX][endY]){
 				Node current = grid[endX][endY];
-				int X = Integer.parseInt(current.toString().split(",")[0]);
-				int Y = Integer.parseInt(current.toString().split(",")[1]);
+				int X = Integer.parseInt(current.toString().replaceAll("Node(", "").replaceAll(")", "").split(",")[0]);
+				int Y = Integer.parseInt(current.toString().replaceAll("Node(", "").replaceAll(")", "").split(",")[1]);
 				path.add(new Node(X, Y));
 		
 				while(current.getParent() != null){
-					X = Integer.parseInt(current.getParent().toString().split(",")[0]);
-					Y = Integer.parseInt(current.getParent().toString().split(",")[1]);
+					X = Integer.parseInt(current.getParent().toString().replaceAll("Node(", "").replaceAll(")", "").split(",")[0]);
+					Y = Integer.parseInt(current.getParent().toString().replaceAll("Node(", "").replaceAll(")", "").split(",")[1]);
 					path.add(new Node(X, Y));
 					current = current.getParent();
 				} 

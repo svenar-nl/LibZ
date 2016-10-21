@@ -2,7 +2,7 @@ package me.winspeednl.libz.tasks;
 
 public class Task {
 	
-	private String name = "";
+	private String name = "Default";
 	private int ticks = 0, interval = 0, executedCount = 0, maxExecutes = 0;
 	private boolean repeat = false, isAlive = true, isRunning = false;
 	

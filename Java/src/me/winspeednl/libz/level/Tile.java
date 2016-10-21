@@ -146,7 +146,6 @@ public class Tile {
 			for(int i = 0; i < newPixels.length; i++) {
 				newPixels[i] = 0xFF000000;
 			}
-	       // setPixels(newPixels);
 		}
 		return newPixels;
 	}
