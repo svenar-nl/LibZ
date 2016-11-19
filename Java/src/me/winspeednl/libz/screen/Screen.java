@@ -23,7 +23,6 @@ public class Screen {
 	public Screen(GameCore gc) {
 		
 		canvas = new Canvas();
-
 		frame = new JFrame(gc.getTitle());
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,7 +70,7 @@ public class Screen {
 	}
 	
 	public void update() {
-		graphics.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+		graphics.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
 		bufferStrategy.show();
 	}
 	
