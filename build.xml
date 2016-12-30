@@ -5,12 +5,6 @@
 
 	<target name="compile" depends="clean">
 		<mkdir dir="build/classes"/>
-		<mkdir dir="build/classes/Font"/>
-		<copy todir="build/classes/Font">
-			<fileset dir="Java/res/Font">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
 		<javac srcdir="Java/src" destdir="build/classes"/>
 	</target>
 
@@ -24,5 +18,4 @@
 	</target>
 
 	<target name="main" depends="jar"/>
-
 </project>
