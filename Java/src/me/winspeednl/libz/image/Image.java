@@ -6,12 +6,33 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Image class.
+ * Used by the Sprite class
+ * 
+ * @author      Sven Arends <sarends98@gmail.com>
+ * @version     1.0
+ * @since       0.2
+ */
 public class Image {
 	
 	public int width, height;
-	public int[] imagePixels;
+	public int x, y, w, h;
+	public BufferedImage image;
 	
-	public Image(String path) {
+	/**
+	 * Constructor, Create a image
+	 * @param path
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+	public Image(String path, int x, int y, int w, int h) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
 		BufferedImage image = null;
 		
 		try {
@@ -22,11 +43,14 @@ public class Image {
 		
 		width = image.getWidth();
 		height = image.getHeight();
-		imagePixels = image.getRGB(0, 0, width, height, null, 0, width);
-		
+		this.image = image.getSubimage(x, y, w, h);
 		image.flush();
 	}
 	
+	/**
+	 * Constructor, Create a image
+	 * @param file
+	 */
 	public Image(File file) {
 		BufferedImage image = null;
 		
@@ -38,20 +62,7 @@ public class Image {
 		
 		width = image.getWidth();
 		height = image.getHeight();
-		imagePixels = image.getRGB(0, 0, width, height, null, 0, width);
-		
+		this.image = image;
 		image.flush();
-	}
-	
-	public Image(Sprite sprite) {
-		width = sprite.width;
-		height = sprite.height;
-		imagePixels = sprite.pixels;
-	}
-
-	public Image(int w, int h, int[] p) {
-		this.width = w;
-		this.height = h;
-		this.imagePixels = p;
 	}
 }

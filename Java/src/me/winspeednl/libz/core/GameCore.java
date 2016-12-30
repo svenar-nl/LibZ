@@ -1,131 +1,190 @@
 package me.winspeednl.libz.core;
 
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.util.ArrayList;
 
-import me.winspeednl.libz.screen.Render;
-import me.winspeednl.libz.screen.Screen;
+import me.winspeednl.libz.entities.Entity;
+import me.winspeednl.libz.graphics.Camera;
+import me.winspeednl.libz.graphics.Render;
+import me.winspeednl.libz.graphics.Screen;
+import me.winspeednl.libz.input.InputListener;
 
+/**
+ * GameCore class.
+ * This is where the magic happens.
+ * 
+ * @author      Sven Arends <sarends98@gmail.com>
+ * @version     1.0
+ * @since       0.1
+ */
 public class GameCore implements Runnable {
-	
-	private Thread thread;
+
+	private String title = "LibZ";
+	private int width = 200, height = 200, tps, fps;
+	private boolean fullscreen = false, screenSizeLocked = false, isDecorated = true;
 	private LibZ game;
 	private Screen screen;
-	public Render renderer;
-	private Input input;
+	private Render render;
+	private InputListener input;
+	private Thread thread;
+	private Camera camera;
+	private ArrayList<Entity> entities = new ArrayList<Entity>(), deadEntities = new ArrayList<Entity>();
 	
-	private int width = 320, height = 240;
-	private int scale = 1;
-	private String title = "LibZ";
-	
-	private double frameCap = 1D / 60D;
-	private boolean fullscreen = false, undecorated = false, screenSizeLocked = false;
-	private int spriteBGColor = 0x00000000;
-	private int fps = 0;
-	private int offsetX, offsetY;
-		
+	/**
+	 * Init
+	 * @param game
+	 */
 	public GameCore(LibZ game) {
 		this.game = game;
 	}
 	
-	public void start() {		
-		screen = new Screen(this);
-		renderer = new Render(this);
-		input = new Input(this);
+	/**
+	 * Init
+	 * @param game
+	 * @param width
+	 * @param height
+	 */
+	public GameCore(LibZ game, int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
+	
+	/**
+	 * Start the game
+	 */
+	public void start() {
+		init();
 		game.init(this);
-
 		thread = new Thread(this);
 		thread.start();
 	}
 	
+	/**
+	 * Stop the game
+	 */
 	public void stop() {
 		thread.interrupt();
 	}
 	
-	public void run() {		
-		double currTime;
-		double lastTime = System.nanoTime() / 1000000000D;
-		double passedTime;
-		double unprocessedTime = 0;
-		double frameTime = 0;
-		int frames = 0;
-		
-		while (!thread.isInterrupted()) {
-			boolean render = false;
-			
-			currTime = System.nanoTime() / 1000000000D;
-			passedTime = currTime - lastTime;
-			lastTime = currTime;
-			
-			unprocessedTime += passedTime;
-			frameTime += passedTime;
-			
-			while (unprocessedTime >= frameCap) {
-				game.update(this);
-				unprocessedTime -= frameCap;
-				render = true;
-				
-				if(frameTime >= 1) {
-					frameTime = 0;
-					fps = frames;
-					frames = 0;
-				}
-			}
-			
-			offsetX = renderer.getOffsetX();
-			offsetY = renderer.getOffsetY();
-			
-			if (render) {
-				renderer.clear();
-				game.render(this, renderer);
-				
-				for (int i = 0; i < renderer.getOverlayPixels().length; i++) {
-					if (renderer.getOverlayPixels()[i] != spriteBGColor)
-						renderer.setPixel(i, renderer.getOverlayPixels()[i]);
-				}
-				
-				screen.update();
-
-				frames++;
-			} else {
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
+	/**
+	 * Initialize everything required for the game.
+	 */
+	private void init() {
+		if (fullscreen) {
+			GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			setSize((int) env.getMaximumWindowBounds().getWidth(), (int) env.getMaximumWindowBounds().getHeight());
 		}
-		
-		screen.cleanup();
+		lockScreenSize();
+		camera = new Camera(0, 0, getWidth(), getHeight());
+		screen = new Screen(this);
+		render = new Render(this);
+		input = new InputListener(this);
 	}
-	
-	public void fullscreen() {
-		fullscreen = true;
-	}
-	
-	public void lockScreenSize() {
+
+	/**
+	 * After calling this the screen size cannot be changed.
+	 */
+	private void lockScreenSize() {
 		screenSizeLocked = true;
 	}
 	
+	/**
+	 * The game loop
+	 */
+	public void run() {
+		long lastTime = System.nanoTime();
+        double nsPerTick = 1000000000D / 60D;
+
+        int ticks = 0;
+        int frames = 0;
+
+        long fpsTimer = System.currentTimeMillis();
+        double delta = 0;
+        
+		while(!thread.isInterrupted()) {
+			long now = System.nanoTime();
+            delta += (now - lastTime) / nsPerTick;
+            lastTime = now;
+            boolean renderFrame = true;
+
+            while (delta >= 1) {
+                ticks++;
+                delta -= 1;
+                update();
+            }
+            renderFrame = true;
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+            	return;
+            }
+
+            if (renderFrame) {
+                frames++;
+                render();
+            }
+            
+            if (System.currentTimeMillis() - fpsTimer >= 1000) {
+            	fpsTimer += 1000;
+                this.tps = ticks;
+                this.fps = frames;
+                frames = 0;
+                ticks = 0;
+            }
+		}
+	}
+	
+	/**
+	 * Update the game
+	 */
+	private void update() {
+		game.update(this);
+		for (Entity entity : entities) {
+			entity.update(this);
+			if (!entity.isAlive()) deadEntities.add(entity);
+		}
+		for (Entity deadEntity : deadEntities) {
+			entities.remove(deadEntity);
+		}
+		deadEntities = new ArrayList<Entity>();
+	}
+
+	/**
+	 * Render a single frame
+	 */
+	private void render() {
+		screen.clear(this);
+		camera.translate(render.getGraphics());
+		game.render(this, render);
+		camera.revert(render.getGraphics());
+		screen.update();
+	}
+
+	// Getters and Setters
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setFullscreen(boolean fullscreen) {
+		this.fullscreen = fullscreen;
+	}
+
 	public boolean isFullscreen() {
 		return fullscreen;
 	}
 	
-	public int getWidth() {
-		return width;
-	}
-
 	public void setWidth(int width) {
-		if (!screenSizeLocked)
-			this.width = width;
+		if (!screenSizeLocked) this.width = width;
 	}
-
-	public int getHeight() {
-		return height;
-	}
-
+	
 	public void setHeight(int height) {
-		if (!screenSizeLocked)
-			this.height = height;
+		if (!screenSizeLocked) this.height = height;
 	}
 	
 	public void setSize(int width, int height) {
@@ -142,64 +201,47 @@ public class GameCore implements Runnable {
 		}
 	}
 
-	public int getScale() {
-		return scale;
+	public int getWidth() {
+		return width;
 	}
 
-	public void setScale(int scale) {
-		if (!screenSizeLocked)
-			this.scale = scale;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
+	public int getHeight() {
+		return height;
 	}
 
 	public Screen getScreen() {
 		return screen;
 	}
-
-	public Input getInput() {
+	
+	public Render getRender() {
+		return render;
+	}
+	
+	public InputListener getInput() {
 		return input;
 	}
-
-	public int getSpriteBGColor() {
-		return spriteBGColor;
+	
+	public int getTPS() {
+		return tps;
 	}
-
-	public void setSpriteBGColor(int spriteBGColor) {
-		this.spriteBGColor = spriteBGColor;
-	}
-
-	public int fps() {
+	
+	public int getFPS() {
 		return fps;
 	}
 
-	public int getOffsetX() {
-		return offsetX;
-	}
-
-	public int getOffsetY() {
-		return offsetY;
-	}
-	
-	public void setOffsetX(int offsetX) {
-		renderer.setOffsetX(offsetX);
-	}
-	
-	public void setOffsetY(int offsetY) {
-		renderer.setOffsetY(offsetY);
-	}
-
 	public boolean isDecorated() {
-		return !undecorated;
+		return isDecorated;
 	}
 	
-	public void undecorated() {
-		undecorated = true;
+	public void setDecorated(boolean decorated) {
+		isDecorated = decorated;
+	}
+	
+	public Camera getCamera() {
+		return camera;
+	}
+	
+	public ArrayList<Entity> getEntities() {
+		return entities;
 	}
 }
