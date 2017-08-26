@@ -2,7 +2,8 @@
 [![Build Status](https://travis-ci.org/winspeednl/LibZ.svg?branch=master)](https://travis-ci.org/winspeednl/LibZ)
 # LibZ
 
-LibZ is a cross-platform 2d game library written in Java and it's currently available for Windows, Linux and Mac OS.
+LibZ is a cross-platform 2d game library written in Java and it's currently available for Windows, Linux, Android* and Mac OS.
+*Android version is different from the PC version.
 
 ### Getting started
 * [Read the Wiki](https://github.com/winspeednl/LibZ/wiki)
