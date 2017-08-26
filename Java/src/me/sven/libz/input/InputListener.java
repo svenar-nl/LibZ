@@ -1,4 +1,4 @@
-package me.winspeednl.libz.input;
+package me.sven.libz.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,16 +9,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
-import me.winspeednl.libz.core.GameCore;
+import me.sven.libz.core.GameCore;
 
-/**
- * Input class
- * The keyboard and mouse is handled here.
- * 
- * @author      Sven Arends <sarends98@gmail.com>
- * @version     1.0
- * @since       1.0
- */
 public class InputListener implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 	
 	private ArrayList<Key> keys = new ArrayList<Key>();

@@ -1,6 +1,6 @@
-package me.winspeednl.libz.input;
+package me.sven.libz.input;
 
-import me.winspeednl.libz.core.GameCore;
+import me.sven.libz.core.GameCore;
 
 /**
  * Key class

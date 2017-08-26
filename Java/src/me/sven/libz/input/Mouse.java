@@ -1,8 +1,8 @@
-package me.winspeednl.libz.input;
+package me.sven.libz.input;
 
 import java.awt.Point;
 
-import me.winspeednl.libz.core.GameCore;
+import me.sven.libz.core.GameCore;
 
 /**
  * Mouse class
