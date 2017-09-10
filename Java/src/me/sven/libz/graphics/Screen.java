@@ -43,10 +43,14 @@ public class Screen {
 		frame.add(canvas, BorderLayout.CENTER);
 		frame.requestFocus();
 		canvas.requestFocus();
-		frame.setVisible(false);
+		frame.setVisible(true);
+		if (Settings.onTop) frame.setAlwaysOnTop(true);
 		
-		canvas.createBufferStrategy(3);
 		bufferStrategy = canvas.getBufferStrategy();
+		if (bufferStrategy == null) {
+			canvas.createBufferStrategy(3);
+			bufferStrategy = canvas.getBufferStrategy();
+		}
 		graphics = bufferStrategy.getDrawGraphics();
 	}
 	
@@ -87,6 +91,7 @@ public class Screen {
 						canvas.setMinimumSize(canvasSize);
 						canvas.setMaximumSize(canvasSize);
 						canvas.setSize(canvasSize);
+						
 						canvas.createBufferStrategy(3);
 						bufferStrategy = canvas.getBufferStrategy();
 						graphics = bufferStrategy.getDrawGraphics();
