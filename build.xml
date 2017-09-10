@@ -5,6 +5,9 @@
 
 	<target name="compile" depends="clean">
 		<mkdir dir="build/classes"/>
+		<copy todir="build/classes">
+			<fileset dir="Java/res"/>
+		</copy>
 		<javac srcdir="Java/src" destdir="build/classes"/>
 	</target>
 
