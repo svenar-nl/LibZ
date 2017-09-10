@@ -7,7 +7,7 @@ public class Settings {
 	public static int width = 800;
 	public static int height = 600;
 	public static int fpsLimit = 60;
-	public static int splashDisplayTime = 2500;
+	public static int splashDisplayTime = 2000;
 	public static boolean fullscreen = false;
 	public static boolean decorated = true;
 	public static boolean resizable = true;
@@ -17,6 +17,7 @@ public class Settings {
 	public static boolean isRunning = false;
 	public static boolean debug = false;
 	public static boolean libzOverlay = true;
+	public static boolean onTop = false;
 	
 	public final static int fpsUnlimited = 1000;
 	

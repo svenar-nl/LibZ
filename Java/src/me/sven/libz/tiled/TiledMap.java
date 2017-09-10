@@ -108,4 +108,37 @@ public class TiledMap {
 		if (objectGroup == null) return new ArrayList<TiledObject>();
 		return objectGroup.objects;
 	}
+	
+	public ArrayList<Integer> getLayer(String name) {
+		ArrayList<Integer> gidTiles = new ArrayList<Integer>();
+		Layer layer = tmxParser.getLayer(name);
+		if (layer != null)
+			for (Tile tile : layer.tiles)
+				gidTiles.add(tile.gid);
+		return gidTiles;
+	}
+	
+	public ArrayList<Sprite> getSprites() {
+		return tsxParser.getSprites();
+	}
+	
+	public Sprite getAnimatedSprite(int gid) {
+		return tsxParser.getAnimatedSprites().get(gid).getSprite();
+	}
+	
+	public int getWidth() {
+		return tmxParser.getMapWidth();
+	}
+	
+	public int getHeight() {
+		return tmxParser.getMapHeight();
+	}
+	
+	public int getTileWidth() {
+		return tmxParser.getTileWidth();
+	}
+	
+	public int getTileHeight() {
+		return tmxParser.getTileHeight();
+	}
 }

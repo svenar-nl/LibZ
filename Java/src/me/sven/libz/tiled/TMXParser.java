@@ -190,6 +190,16 @@ public class TMXParser {
 	public ArrayList<Layer> getLayers() {
 		return layers;
 	}
+	
+	public Layer getLayer(String name) {
+		Layer layer = null;
+		for (Layer l : layers)
+			if (l.name.equalsIgnoreCase(name)) {
+				layer = l;
+				break;
+			}
+		return layer;
+	}
 
 	public Objectgroup getObjectgroup(String key) {
 		return objectgroups.get(key);

@@ -165,6 +165,10 @@ public class TSXParser {
 	public int lastGid() {
 		return sprites.size();
 	}
+
+	public ArrayList<Sprite> getSprites() {
+		return new ArrayList<Sprite>(sprites.values());
+	}
 }
 
 class TSXTileset {
