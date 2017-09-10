@@ -3,6 +3,8 @@ package me.sven.libz.graphics;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import me.sven.libz.image.Sprite;
+
 public class Render {
 	
 	private Graphics g;
@@ -51,8 +53,24 @@ public class Render {
 		h = Math.abs(h);
 		g.drawRect(x, y, w, h);
 	}
-
-	public void drawRect(Float x, Float y, Float w, Float h) {
-		drawRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+	
+	/**
+	 * Draw a sprite with external x and y values
+	 * @param sprite
+	 * @param x
+	 * @param y
+	 */
+	public void drawSprite(Sprite sprite, int x, int y) {
+		Graphics g = getGraphics();
+		g.drawImage(sprite.image, x, y, null);
+	}
+	
+	/**
+	 * Draw a sprite with internal x and y values
+	 * @param sprite
+	 */
+	public void drawSprite(Sprite sprite) {
+		Graphics g = getGraphics();
+		g.drawImage(sprite.image, sprite.getX(), sprite.getY(), null);
 	}
 }
