@@ -90,9 +90,10 @@ public class GameCore implements Runnable {
 				
 				game.init(this);
 				screen.show();
-				thread = new Thread(this);
+				thread = new Thread(this, "LibZ Game Thread");
 				thread.start();
 				
+				if (Settings.resizable) log.fatal("'Settings.resizable' is depricated and is ignored");
 				log.info(String.format("LibZ init took: %.3f sec", ((System.nanoTime() - start) / 1000000000.0)));
 				if (Settings.debug) log.info("Logging game settings" + System.lineSeparator() + Settings.toLogString());
 				else log.info("Screen size: " + Settings.width + "x" + Settings.height);

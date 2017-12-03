@@ -11,8 +11,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
@@ -81,26 +79,7 @@ public class Screen {
 			frame.setLocationRelativeTo(null);
 			frame.setSize(Settings.width, Settings.height);
 			frame.setUndecorated(!Settings.decorated);
-			if (Settings.resizable) {
-				frame.addComponentListener(new ComponentListener() {
-				    public void componentResized(ComponentEvent e) {
-				    	Dimension canvasSize = new Dimension(e.getComponent().getWidth(), e.getComponent().getHeight()); 
-				    	Settings.width = e.getComponent().getWidth();
-				    	Settings.height = e.getComponent().getHeight();
-				    	canvas.setPreferredSize(canvasSize);
-						canvas.setMinimumSize(canvasSize);
-						canvas.setMaximumSize(canvasSize);
-						canvas.setSize(canvasSize);
-						
-						canvas.createBufferStrategy(3);
-						bufferStrategy = canvas.getBufferStrategy();
-						graphics = bufferStrategy.getDrawGraphics();
-				    }
-					public void componentHidden(ComponentEvent arg0) {}
-					public void componentMoved(ComponentEvent arg0) {}
-					public void componentShown(ComponentEvent arg0) {}
-				});
-			} else frame.setResizable(false);
+			frame.setResizable(false);
 		}
 		setupFrame(canvasSize);
 	}
