@@ -10,7 +10,7 @@ public class Settings {
 	public static int splashDisplayTime = 2000;
 	public static boolean fullscreen = false;
 	public static boolean decorated = true;
-	public static boolean resizable = true;
+	public static boolean resizable = false; // Deprecated as of v1.4
 	public static boolean splash = true;
 	public static boolean menu = true;
 	public static boolean closeConfirmation = true;
@@ -30,7 +30,6 @@ public class Settings {
                 "Fullscreen: " + fullscreen + '\n' +
                 "Splash: " + splash + '\n' +
                 "Decorated: " + decorated + '\n' +
-                "Resizable: " + resizable + '\n' +
                 "Splash Display Time: " + splashDisplayTime + "ms" + '\n' +
                 "Debug: " + debug;
 	}
