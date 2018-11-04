@@ -1,5 +1,5 @@
 ![logo](https://raw.githubusercontent.com/winspeednl/LibZ/master/Logo.png)
-[![Build Status](https://travis-ci.org/winspeednl/LibZ.svg?branch=master)](https://travis-ci.org/winspeednl/LibZ)
+[![Build Status](https://travis-ci.org/svenarends/LibZ.svg?branch=master)](https://travis-ci.org/svenarends/LibZ)
 # LibZ
 ###### It's not a bug, it's a feature. Made possible with LibZ
 LibZ is a cross-platform 2d game library written in Java and it's currently available for Windows, Linux, Android* and Mac OS.
